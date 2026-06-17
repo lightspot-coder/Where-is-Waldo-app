@@ -1,35 +1,45 @@
 import { useState } from "react";
 import CharacterMenu from "./CharacterMenu";
 
-function LoadPhoto() {
+function LoadPhoto({ setCharacter }) {
   // fetch the photo with the server
 
-  const [square, setSquare] = useState(null);
-  const SQUARE_SIZE = 100;
+  const [menuPosition, setMenuPosition] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   function handleOnClick(e) {
-    const rect = e.target.getBoundingClientRect();
-    //console.log("image start at X: " + rect.x + ", and Y: " + rect.y);
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
-    //console.log("click on X: " + clickX + ", and Y: " + clickY);
-    // Center the square over the click point
-    const x = clickX - SQUARE_SIZE / 2;
-    const y = clickY - SQUARE_SIZE / 2;
+    if (!showMenu) {
+      const rect = e.target.getBoundingClientRect();
+      //console.log("image start at left: " + rect.left + ", and top: " + rect.top);
+      const clickX = Math.round(e.clientX - rect.left);
+      const clickY = Math.round(e.clientY - rect.top);
+      //console.log("click on X: " + clickX + ", and Y: " + clickY);
+      // Center the square over the click point
 
-    setSquare({ x, y });
+      const x = clickX;
+      const y = clickY;
+      setMenuPosition({ x, y });
+      setShowMenu(true);
+    }
   }
   return (
     <>
       <div style={{ position: "relative" }}>
         <img
-          src="../../public/waldo1.jpg"
+          src="../../public/waldo4.jpg"
           width="1000"
           height="800"
           onClick={handleOnClick}
         ></img>
         {/* Render the square if coordinates exist */}
-        {square && <CharacterMenu x={square.x} y={square.y} />}
+        {showMenu && (
+          <CharacterMenu
+            x={menuPosition.x}
+            y={menuPosition.y}
+            setShowMenu={setShowMenu}
+            setCharacter={setCharacter}
+          />
+        )}
       </div>
     </>
   );
