@@ -1,11 +1,26 @@
 import { useState } from "react";
 import CharacterMenu from "./CharacterMenu";
 
-function LoadPhoto({ setCharacter }) {
+function LoadPhoto({ setCharacter, game, availableCharacters }) {
   // fetch the photo with the server
 
   const [menuPosition, setMenuPosition] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+  let imageName = "";
+
+  switch (game.imageId) {
+    case 2:
+      imageName = "waldo4.jpg";
+      break;
+    case 3:
+      imageName = "waldo1.jpg";
+      break;
+    case 4:
+    case 5:
+    default:
+      imageName = "waldo4.jpg";
+      break;
+  }
 
   function handleOnClick(e) {
     if (!showMenu) {
@@ -26,7 +41,7 @@ function LoadPhoto({ setCharacter }) {
     <>
       <div style={{ position: "relative" }}>
         <img
-          src="../../public/waldo4.jpg"
+          src={`../../public/${imageName}`}
           width="1000"
           height="800"
           onClick={handleOnClick}
@@ -38,6 +53,7 @@ function LoadPhoto({ setCharacter }) {
             y={menuPosition.y}
             setShowMenu={setShowMenu}
             setCharacter={setCharacter}
+            availableCharacters={availableCharacters}
           />
         )}
       </div>

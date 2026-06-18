@@ -1,39 +1,21 @@
 import { useState } from "react";
 
-function CharacterMenu({ x, y, setShowMenu, setCharacter }) {
-  const [arrayOfCharacterImg, setArrayOfCharacterImg] = useState([
-    "../../public/characters/waldo.png",
-    "../../public/characters/wenda.png",
-    "../../public/characters/odlaw.png",
-    "../../public/characters/wizard.png",
-    "../../public/characters/woof.png",
-  ]);
-
+function CharacterMenu({
+  x,
+  y,
+  setShowMenu,
+  setCharacter,
+  availableCharacters,
+}) {
   function handleChooseCharacter(e, index) {
-    let characterName = "";
-    switch (index) {
-      case 0:
-        characterName = "waldo";
-        break;
-      case 1:
-        characterName = "wenda";
-        break;
-      case 2:
-        characterName = "odlaw";
-        break;
-      case 3:
-        characterName = "wizard";
-        break;
-      case 4:
-        characterName = "woof";
-        break;
-    }
     setCharacter({
-      name: characterName,
-      x: x,
-      y: y,
+      name: availableCharacters[index].name,
+      positionX: x,
+      positionY: y,
     });
-    console.log("You choose the character : " + characterName);
+    console.log(
+      "You choose the character : " + availableCharacters[index].name,
+    );
     setShowMenu(false);
   }
 
@@ -53,14 +35,16 @@ function CharacterMenu({ x, y, setShowMenu, setCharacter }) {
       >
         Who is the character
       </div>
-      {arrayOfCharacterImg.map((characterImg, index) => {
+      {availableCharacters.map((character, index) => {
+        console.log(character);
+
         return (
           <div
             onClick={(e) => {
               handleChooseCharacter(e, index);
             }}
             style={{
-              content: `url(${characterImg})`,
+              content: `url("../../public/characters/${character.name}.png")`,
               backgroundColor: "white",
               position: "absolute",
               left: `${x + 50 * index}px`,
