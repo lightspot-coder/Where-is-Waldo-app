@@ -36,14 +36,14 @@ function Game() {
         console.log(character);
         const url =
           URL_DOMAIN +
-          `game/${newGame.id}/image/${imageId}/character?name=${character.name}&positionX=${character.positionX}&positionY=${character.positionY}`;
+          `game/${newGame.id}/image/${newGame.imageLoaded.id}/character?name=${character.name}&positionX=${character.positionX}&positionY=${character.positionY}`;
         console.log(url);
         const response = await fetch(url);
         const result = await response.json();
-        console.log(result.message);
+        console.log(result);
         if (response.ok) {
           console.log(result.data);
-          if (result.data.characterFinded) {
+          if (result.data && result.data.characterFinded) {
             console.log(result.data);
             let newCharactersFounded = charactersFounded.slice();
             newCharactersFounded.push(result.data);
@@ -91,8 +91,9 @@ function Game() {
           <label>
             Select a image :
             <select name="image" value={imageId} onChange={handleSelectImage}>
-              <option value="3">Waldo on the beach</option>
-              <option value="2">Waldo on the river</option>
+              <option value="1">Waldo on the beach</option>
+              <option value="2">Waldo on the market</option>
+              <option value="3">Waldo on the river</option>
             </select>
           </label>
           <button onClick={handleStart}>Start</button>

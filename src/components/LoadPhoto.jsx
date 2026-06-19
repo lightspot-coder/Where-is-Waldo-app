@@ -6,21 +6,6 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
 
   const [menuPosition, setMenuPosition] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
-  let imageName = "";
-
-  switch (game.imageId) {
-    case 2:
-      imageName = "waldo4.jpg";
-      break;
-    case 3:
-      imageName = "waldo1.jpg";
-      break;
-    case 4:
-    case 5:
-    default:
-      imageName = "waldo4.jpg";
-      break;
-  }
 
   function handleOnClick(e) {
     if (!showMenu) {
@@ -41,7 +26,7 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
     <>
       <div style={{ position: "relative" }}>
         <img
-          src={`../../public/${imageName}`}
+          src={`../../public/${game.imageLoaded.fileName}`}
           width="1000"
           height="800"
           onClick={handleOnClick}
