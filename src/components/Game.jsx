@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import LoadPhoto from "./LoadPhoto";
+import Timer from "./Timer";
 
 const URL_DOMAIN = "http://localhost:3000/waldo-api/";
 
-async function createGame(imageId, userId) {
+async function createGame(imageId) {
   try {
-    const response = await fetch(
-      URL_DOMAIN + `game?imageId=${imageId}&userId=${userId}`,
-    );
+    const userId = localStorage.getItem("id");
+    let url = URL_DOMAIN + `game?imageId=${imageId}`;
+    if (userId) {
+      url += `&userId=${userId}`;
+    }
+    const response = await fetch(url);
     const result = await response.json();
     console.log(result.message);
     if (!response.ok) {
@@ -20,14 +24,34 @@ async function createGame(imageId, userId) {
   }
 }
 
+async function fetchUpdateName(newName) {
+  const userId = localStorage.getItem("id");
+  if (!userId) {
+    console.log("You dont have a user on the server");
+    return null;
+  }
+  const response = await fetch(URL_DOMAIN + `user/${userId}?name=${newName}`);
+  if (!response.ok) {
+    console.log("Something goes wrong updating the user name");
+    return null;
+  }
+  const data = await response.json();
+  return data;
+}
+
 function Game() {
   const [character, setCharacter] = useState(undefined);
   const [charactersFounded, setCharacterFounded] = useState([]);
   const [start, setStart] = useState(false);
   const [imageId, setImageId] = useState("2");
-  const [time, setTime] = useState(undefined);
   const [newGame, setNewGame] = useState(undefined);
+  const [gameOver, setGameOver] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([]);
+  const [totalTime, setTotalTime] = useState(undefined);
+  const [serverMessage, setServerMessage] = useState("");
+  const [userName, setUserName] = useState("anonymus");
+  const [updateName, setUpdateName] = useState(false);
+
   //const [start] = useCreateGame();
 
   useEffect(() => {
@@ -36,13 +60,14 @@ function Game() {
         console.log(character);
         const url =
           URL_DOMAIN +
-          `game/${newGame.id}/image/${newGame.imageLoaded.id}/character?name=${character.name}&positionX=${character.positionX}&positionY=${character.positionY}`;
+          `game/${newGame.id}/image/${newGame.imageLoaded.id}/user/${newGame.userId}/character?name=${character.name}&positionX=${character.positionX}&positionY=${character.positionY}`;
         console.log(url);
         const response = await fetch(url);
         const result = await response.json();
         console.log(result);
         if (response.ok) {
           console.log(result.data);
+          setServerMessage(result.message);
           if (result.data && result.data.characterFinded) {
             console.log(result.data);
             let newCharactersFounded = charactersFounded.slice();
@@ -61,6 +86,10 @@ function Game() {
             console.log(characters);
             setAvailableCharacters(characters.slice());
             setCharacterFounded(newCharactersFounded);
+            if (result.gameOver) {
+              setGameOver(true);
+              setTotalTime(result.timePlaying);
+            }
           }
         }
       }
@@ -72,8 +101,9 @@ function Game() {
     e.preventDefault();
 
     console.log(imageId);
-    const newGame = await createGame(imageId, 2);
+    const newGame = await createGame(imageId);
     console.log(newGame);
+    localStorage.setItem("id", newGame.userId);
     setNewGame(newGame);
     setAvailableCharacters(newGame.imageLoaded.characters.slice());
     setStart(true);
@@ -83,11 +113,25 @@ function Game() {
     setImageId(e.target.value);
   }
 
+  function handleUserName(e) {
+    setUserName(e.target.value);
+  }
+
+  async function updateUserName(e) {
+    e.preventDefault();
+    const result = await fetchUpdateName(userName);
+    if (!result) {
+      setUpdateName(false);
+      return;
+    }
+    console.log(result);
+    setUserName(result.data.user.name);
+    setUpdateName(true);
+  }
   if (!start) {
     return (
       <>
         <div>
-          <h1>Where is Waldo app</h1>
           <label>
             Select a image :
             <select name="image" value={imageId} onChange={handleSelectImage}>
@@ -103,9 +147,13 @@ function Game() {
   }
 
   return (
-    <>
-      <h1>Where is Waldo app</h1>
-      <p>Start time : {newGame.start}</p>
+    <div className="game">
+      {!gameOver && (
+        <>
+          <Timer />
+          <span>{serverMessage}</span>
+        </>
+      )}
       <LoadPhoto
         setCharacter={setCharacter}
         game={newGame}
@@ -119,7 +167,7 @@ function Game() {
               style={{
                 position: "absolute",
                 left: `${character.targetBox.left}px`,
-                top: `${character.targetBox.top + 100}px`,
+                top: `${character.targetBox.top + 120}px`,
                 width: `${character.targetBox.width}px`,
                 height: `${character.targetBox.height}px`,
                 border: "2px solid red",
@@ -127,7 +175,39 @@ function Game() {
             />
           );
         })}
-    </>
+      {gameOver && (
+        <>
+          <div
+            className="targetBox"
+            style={{
+              position: "absolute",
+              left: `400px`,
+              top: `400px`,
+              width: `200px`,
+              height: `200px`,
+              border: "2px solid red",
+              backgroundColor: "white",
+            }}
+          >
+            <p>{`You win in ${totalTime} seconds. ${serverMessage}`}</p>
+            {!updateName ? (
+              <label>
+                Add your name :{" "}
+                <input
+                  type="text"
+                  onChange={handleUserName}
+                  defaultValue={userName}
+                />
+                <button onClick={updateUserName}>Confirm</button>
+              </label>
+            ) : (
+              <p>Your new Name is {userName} </p>
+            )}
+            <a href="/">Go back and try again</a>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
