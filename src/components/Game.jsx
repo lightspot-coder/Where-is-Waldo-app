@@ -154,59 +154,61 @@ function Game() {
           <span>{serverMessage}</span>
         </>
       )}
-      <LoadPhoto
-        setCharacter={setCharacter}
-        game={newGame}
-        availableCharacters={availableCharacters}
-      />
-      {charactersFounded &&
-        charactersFounded.map((character) => {
-          return (
+      <div className="assets-interactive" style={{ position: "relative" }}>
+        <LoadPhoto
+          setCharacter={setCharacter}
+          game={newGame}
+          availableCharacters={availableCharacters}
+        />
+        {charactersFounded &&
+          charactersFounded.map((character) => {
+            return (
+              <div
+                className="targetBox"
+                style={{
+                  position: "absolute",
+                  left: `${character.targetBox.left}px`,
+                  top: `${character.targetBox.top + 120}px`,
+                  width: `${character.targetBox.width}px`,
+                  height: `${character.targetBox.height}px`,
+                  border: "2px solid red",
+                }}
+              />
+            );
+          })}
+        {gameOver && (
+          <>
             <div
-              className="targetBox"
+              className="game-over-div"
               style={{
                 position: "absolute",
-                left: `${character.targetBox.left}px`,
-                top: `${character.targetBox.top + 120}px`,
-                width: `${character.targetBox.width}px`,
-                height: `${character.targetBox.height}px`,
+                left: `400px`,
+                top: `400px`,
+                width: `200px`,
+                height: `200px`,
                 border: "2px solid red",
+                backgroundColor: "white",
               }}
-            />
-          );
-        })}
-      {gameOver && (
-        <>
-          <div
-            className="targetBox"
-            style={{
-              position: "absolute",
-              left: `400px`,
-              top: `400px`,
-              width: `200px`,
-              height: `200px`,
-              border: "2px solid red",
-              backgroundColor: "white",
-            }}
-          >
-            <p>{`You win in ${totalTime} seconds. ${serverMessage}`}</p>
-            {!updateName ? (
-              <label>
-                Add your name :{" "}
-                <input
-                  type="text"
-                  onChange={handleUserName}
-                  defaultValue={userName}
-                />
-                <button onClick={updateUserName}>Confirm</button>
-              </label>
-            ) : (
-              <p>Your new Name is {userName} </p>
-            )}
-            <a href="/">Go back and try again</a>
-          </div>
-        </>
-      )}
+            >
+              <p>{`You win in ${totalTime} seconds. ${serverMessage}`}</p>
+              {!updateName ? (
+                <label>
+                  Add your name :{" "}
+                  <input
+                    type="text"
+                    onChange={handleUserName}
+                    defaultValue={userName}
+                  />
+                  <button onClick={updateUserName}>Confirm</button>
+                </label>
+              ) : (
+                <p>Your new Name is {userName} </p>
+              )}
+              <a href="/">Go back and try again</a>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -24,7 +24,7 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
   }
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div>
         <img
           src={`../../public/${game.imageLoaded.fileName}`}
           width="1000"
