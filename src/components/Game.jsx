@@ -43,7 +43,7 @@ function Game() {
   const [character, setCharacter] = useState(undefined);
   const [charactersFounded, setCharacterFounded] = useState([]);
   const [start, setStart] = useState(false);
-  const [imageId, setImageId] = useState("2");
+  const [imageId, setImageId] = useState("waldo2.jpg");
   const [newGame, setNewGame] = useState(undefined);
   const [gameOver, setGameOver] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([]);
@@ -135,9 +135,9 @@ function Game() {
           <label>
             Select a image :
             <select name="image" value={imageId} onChange={handleSelectImage}>
-              <option value="1">Waldo on the beach</option>
-              <option value="2">Waldo on the market</option>
-              <option value="3">Waldo on the river</option>
+              <option value="waldo1.jpg">Waldo on the beach</option>
+              <option value="waldo2.jpg">Waldo on the market</option>
+              <option value="waldo3.jpg">Waldo on the river</option>
             </select>
           </label>
           <button onClick={handleStart}>Start</button>
