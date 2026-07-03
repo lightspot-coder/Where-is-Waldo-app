@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import LoadPhoto from "./LoadPhoto";
 import Timer from "./Timer";
 
-const URL_DOMAIN = "http://localhost:3000/waldo-api/";
+//const URL_DOMAIN = "http://localhost:3000/waldo-api/";
+const URL_DOMAIN =
+  "http://where-is-waldo-app-api-production.up.railway.app:3000/waldo-api";
 
 async function createGame(imageId) {
   try {
