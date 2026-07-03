@@ -3,8 +3,7 @@ import LoadPhoto from "./LoadPhoto";
 import Timer from "./Timer";
 
 //const URL_DOMAIN = "http://localhost:3000/waldo-api/";
-const URL_DOMAIN =
-  "http://where-is-waldo-app-api-production.up.railway.app:3000/waldo-api";
+const URL_DOMAIN = import.meta.env.VITE_API_URL;
 
 async function createGame(imageId) {
   try {
