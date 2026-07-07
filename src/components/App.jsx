@@ -6,7 +6,7 @@ function App() {
     <>
       <h1>Were is Waldo?</h1>
       <Game />
-      <a href="/score">Show score</a>
+      <a href="score">Show score</a>
     </>
   );
 }
