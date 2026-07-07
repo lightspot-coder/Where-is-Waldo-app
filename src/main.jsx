@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "score",
+    path: "/score",
     element: <ShowScore />,
   },
 ]);
