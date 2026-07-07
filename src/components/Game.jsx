@@ -169,7 +169,7 @@ function Game() {
                 style={{
                   position: "absolute",
                   left: `${character.targetBox.left}px`,
-                  top: `${character.targetBox.top + 120}px`,
+                  top: `${character.targetBox.top}px`,
                   width: `${character.targetBox.width}px`,
                   height: `${character.targetBox.height}px`,
                   border: "2px solid red",

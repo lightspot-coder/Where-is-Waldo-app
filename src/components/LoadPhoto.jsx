@@ -14,6 +14,8 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
       const clickY = Math.round(e.clientY - rect.top);
       const x = clickX;
       const y = clickY;
+      console.log("x : " + x);
+      console.log("y : " + y);
       setMenuPosition({ x, y });
       setShowMenu(true);
     }
