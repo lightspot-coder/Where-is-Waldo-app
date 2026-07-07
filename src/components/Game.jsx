@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import LoadPhoto from "./LoadPhoto";
 import Timer from "./Timer";
 
-//const URL_DOMAIN = "http://localhost:3000/waldo-api/";
 const URL_DOMAIN = import.meta.env.VITE_API_URL;
 
 async function createGame(imageId) {
   try {
+    console.log(URL_DOMAIN);
     const userId = localStorage.getItem("id");
     let url = URL_DOMAIN + `game?imageId=${imageId}`;
     if (userId) {

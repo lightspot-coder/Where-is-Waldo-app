@@ -10,12 +10,8 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
   function handleOnClick(e) {
     if (!showMenu) {
       const rect = e.target.getBoundingClientRect();
-      //console.log("image start at left: " + rect.left + ", and top: " + rect.top);
       const clickX = Math.round(e.clientX - rect.left);
       const clickY = Math.round(e.clientY - rect.top);
-      //console.log("click on X: " + clickX + ", and Y: " + clickY);
-      // Center the square over the click point
-
       const x = clickX;
       const y = clickY;
       setMenuPosition({ x, y });
@@ -26,7 +22,7 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
     <>
       <div>
         <img
-          src={`../../public/${game.imageLoaded.fileName}`}
+          src={`src/assets/${game.imageLoaded.fileName}`}
           width="1000"
           height="800"
           onClick={handleOnClick}

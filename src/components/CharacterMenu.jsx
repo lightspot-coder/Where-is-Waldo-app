@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function CharacterMenu({
   x,
   y,
@@ -44,7 +42,7 @@ function CharacterMenu({
               handleChooseCharacter(e, index);
             }}
             style={{
-              content: `url("../../public/characters/${character.name}.png")`,
+              content: `url("src/assets/characters/${character.name}.png")`,
               backgroundColor: "white",
               position: "absolute",
               left: `${x + 50 * index}px`,

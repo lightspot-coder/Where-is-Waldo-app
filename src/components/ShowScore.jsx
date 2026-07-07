@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const URL_DOMAIN = "http://localhost:3000/waldo-api/";
+const URL_DOMAIN = import.meta.env.VITE_API_URL;
 
 function ShowScore() {
   const [users, setUsers] = useState(undefined);
