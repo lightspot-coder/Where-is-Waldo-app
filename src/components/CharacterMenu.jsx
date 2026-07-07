@@ -42,7 +42,7 @@ function CharacterMenu({
               handleChooseCharacter(e, index);
             }}
             style={{
-              content: `url("src/assets/characters/${character.name}.png")`,
+              content: `url("/images/characters/${character.name}.png")`,
               backgroundColor: "white",
               position: "absolute",
               left: `${x + 50 * index}px`,

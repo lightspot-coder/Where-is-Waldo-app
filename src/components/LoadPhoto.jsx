@@ -22,7 +22,7 @@ function LoadPhoto({ setCharacter, game, availableCharacters }) {
     <>
       <div>
         <img
-          src={`src/assets/${game.imageLoaded.fileName}`}
+          src={`/images/${game.imageLoaded.fileName}`}
           width="1000"
           height="800"
           onClick={handleOnClick}
